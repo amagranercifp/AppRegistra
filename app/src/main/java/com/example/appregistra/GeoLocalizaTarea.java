@@ -71,14 +71,15 @@ public class GeoLocalizaTarea extends AppCompatActivity{
         map.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         map.setMultiTouchControls(true);
-
-
-
     }
 
     private void CreaUbicacion(MapView mapView, double latitud, double longitud) {
         // Configurar una ubicación específica
         GeoPoint ubicacion = new GeoPoint(latitud, longitud);
+
+
+        // Establecer el zoom manualmente (marcado como obsoleto, pero aún funciona)
+
 
         // Agregar un marcador en la ubicación
         Marker ubicacionMarker = new Marker(mapView);
@@ -86,17 +87,8 @@ public class GeoLocalizaTarea extends AppCompatActivity{
         ubicacionMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         mapView.getOverlays().add(ubicacionMarker);
 
-        // Configurar la información del marcador
-        ubicacionMarker.setInfoWindow(new MarkerInfoWindow(R.id.mapview));
-
-        // Mostrar la información del marcador al hacer clic
-        mapView.setOnMarkerClickListener((marker, mapView) -> {
-            marker.showInfoWindow();
-            return true;
-        });
-
-        // Animación de movimiento y zoom
-        mapView.getController().animateTo(ubicacionMarker.getPosition(), mapView.getZoomLevelDouble(), 2000L);
+        mapView.getController().setZoom(15);
+        mapView.getController().setCenter(ubicacion);
     }
 
 
