@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:columnCount="1"
+    android:rowCount="1"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Botón para registrar actividad -->
+    <ImageButton
+        android:id="@+id/btnRegistrarActividad"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_columnWeight="1"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ubicacion"
+        android:onClick="onRegistrarActividadClick"/>
+
+    <!-- ImageButton para visualizar tareas -->
+    <ImageButton
+        android:id="@+id/btnVisualizarTareas"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_columnWeight="1"
+        android:scaleType="fitCenter"
+        android:src="@drawable/percepcion"
+        android:onClick="onVisualizarTareasClick"/>
+
+</GridLayout>
