@@ -23,9 +23,12 @@
         android:theme="@style/Theme.AppRegistra"
         tools:targetApi="34">
         <activity
+            android:name=".ListarTareasRegistradas"
+            android:exported="false" />
+        <activity
             android:name=".ResumenRegistroTarea"
             android:exported="false"
-            android:parentActivityName=".GeoLocalizaTarea"/>
+            android:parentActivityName=".GeoLocalizaTarea" />
         <activity
             android:name=".GeoLocalizaTarea"
             android:exported="false" />
