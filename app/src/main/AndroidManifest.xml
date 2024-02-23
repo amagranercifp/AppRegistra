@@ -12,18 +12,20 @@
     <uses-permission android:name="android.permission.WRITE_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.WRITE_MEDIA_AUDIO" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/map_854952"
         android:label="@string/app_name"
         android:roundIcon="@drawable/map_854952"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppRegistra"
         tools:targetApi="34">
-
+        <activity
+            android:name=".ResumenRegistroTarea"
+            android:exported="false"
+            android:parentActivityName=".GeoLocalizaTarea"/>
         <activity
             android:name=".GeoLocalizaTarea"
             android:exported="false" />
