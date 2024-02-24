@@ -227,17 +227,17 @@ public class GeoLocalizaTarea extends AppCompatActivity implements OnCoordenadaO
                         latitud = locationResult.getLocations().get(latestLocationIndex).getLatitude();
                         u.setLatitud(latitud);
                         longitud = locationResult.getLocations().get(latestLocationIndex).getLongitude();
-                        u.setLatitud(longitud);
-
-                        tvUbicacionGPSInicial.setText("("+String.valueOf(latitud)+","+String.valueOf(longitud)+")");
-
-                        // Llamar a la función CreaUbicacion con latitud y longitud específicas (por ejemplo, Nueva York)
-                        CreaUbicacion(map, latitud, longitud);
-
-                        Log.d("UBICACION",""+latitud+","+longitud);
+                        u.setLongitud(longitud);
 
                         // Llamar al listener con las coordenadas obtenidas
                         if (listener != null && !transicion ) {
+                            tvUbicacionGPSInicial.setText("("+String.valueOf(latitud)+","+String.valueOf(longitud)+")");
+
+                            // Llamar a la función CreaUbicacion con latitud y longitud específicas (por ejemplo, Nueva York)
+                            CreaUbicacion(map, latitud, longitud);
+
+                            Log.d("UBICACION",""+latitud+","+longitud);
+
                             listener.onCoordenadaObtenida(u);
                         }
                         else{

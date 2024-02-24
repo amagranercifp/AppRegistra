@@ -24,7 +24,8 @@
         tools:targetApi="34">
         <activity
             android:name=".ListarTareasRegistradas"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ResumenRegistroTarea"
             android:exported="false"

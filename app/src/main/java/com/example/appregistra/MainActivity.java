@@ -18,13 +18,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnRegistrarActividad = findViewById(R.id.btnRegistrarActividad);
-        btnVisualizarTareas = findViewById(R.id.btnRegistrarActividad);
+        btnVisualizarTareas = findViewById(R.id.btnVisualizarTareas);
 
 
         btnRegistrarActividad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), GeoLocalizaTarea.class);
+
+                startActivity(i);
+            }
+        });
+
+        btnVisualizarTareas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), ListarTareasRegistradas.class);
 
                 startActivity(i);
             }

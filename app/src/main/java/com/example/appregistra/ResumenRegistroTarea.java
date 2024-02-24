@@ -1,18 +1,29 @@
 package com.example.appregistra;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appregistra.datos.Tarea;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResumenRegistroTarea extends AppCompatActivity {
 
@@ -21,6 +32,11 @@ public class ResumenRegistroTarea extends AppCompatActivity {
     TextInputEditText tvDescripcion;
 
     Button btnValidar;
+
+    FirebaseFirestore mFirestore;
+    FirebaseAuth mAuth;
+
+    Tarea tarea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +63,7 @@ public class ResumenRegistroTarea extends AppCompatActivity {
         // Recibe la instancia de Tarea desde el Intent
         Intent intent = getIntent();
         if (intent != null) {
-            Tarea tarea = (Tarea) intent.getSerializableExtra("tarea");
+            tarea = (Tarea) intent.getSerializableExtra("tarea");
 
             // Ahora puedes usar la instancia de Tarea como desees
             if (tarea != null) {
@@ -76,12 +92,75 @@ public class ResumenRegistroTarea extends AppCompatActivity {
 
                 Toast.makeText(v.getContext(),"Tarea registrada correctamente",Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(v.getContext(), MainActivity.class);
 
-                startActivity(i);
+
+                //En este punto, registramos los datos en Firebase.
+                guardarDocumentoFirebase(v.getContext(),tarea);
+
+
+
 
             }
         });
+
+    }
+
+    public void guardarDocumentoFirebase(Context c, Tarea t){
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Crear un nuevo usuario con información adicional
+        // Crea un nuevo mapa para la tarea
+        Map<String, Object> tareaMap = new HashMap<>();
+        tareaMap.put("idTarea", t.getIdTarea());
+        tareaMap.put("nombreTecnico", t.getNombreTecnico());
+
+        // Crea un nuevo mapa para la ubicación inicial
+        Map<String, Object> uInicialMap = new HashMap<>();
+        uInicialMap.put("latitud", t.getuInicial().getLatitud());
+        uInicialMap.put("longitud", t.getuInicial().getLongitud());
+
+        // Agrega el mapa de ubicación inicial al mapa de la tarea
+        tareaMap.put("uInicial", uInicialMap);
+
+        // Crea un nuevo mapa para la ubicación final
+        Map<String, Object> uFinalMap = new HashMap<>();
+        uFinalMap.put("latitud", t.getuFinal().getLatitud());
+        uFinalMap.put("longitud", t.getuFinal().getLongitud());
+
+        // Agrega el mapa de ubicación final al mapa de la tarea
+        tareaMap.put("uFinal", uFinalMap);
+
+        tareaMap.put("momentoInicial", t.getMomentoInicial());
+        tareaMap.put("momentoFinal", t.getMomentoFinal());
+        tareaMap.put("descripcion", t.getDescripcion());
+
+
+        mFirestore.collection("tareas")
+                .add(tareaMap)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("RESUMEN - TAREA REGISTRADA", "Tarea almacenada correctamente en Firestore");
+
+
+                        Toast.makeText(c,"Tarea registrada correctamente",Toast.LENGTH_LONG).show();
+
+                        Intent i = new Intent(c, MainActivity.class);
+
+                        startActivity(i);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("RESUMEN - TAREA REGISTRADA", "Error al registrar la práctica en Firestore", e);
+                        Toast.makeText(c,"Error al registrar la práctica. Motivo: "+e,Toast.LENGTH_LONG).show();
+                    }
+                });
 
     }
 }
